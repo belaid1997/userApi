@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,16 @@ import org.springframework.stereotype.Service;
 import com.example.UserApi.entity.Role;
 import com.example.UserApi.entity.User;
 import com.example.UserApi.repository.UserRepository;
+import com.example.UserApi.security.service.UserDetailsImpl;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 
 @Service
-public class UserServiceImp implements UserService {
+public class UserServiceImp implements UserService,UserDetailsService {
 	
 	
 	@Autowired
@@ -62,9 +68,10 @@ public class UserServiceImp implements UserService {
 	}
 
 
+	
 	@Override
-	public Optional<User> findUserAccount(String userName) {
-		   return userRepository.findByUserName(userName);
+	public Optional<User> findUserAccount(String userName)throws UsernameNotFoundException {
+		   return userRepository.findByUsername(userName);
 	    }
 	
 	
@@ -75,6 +82,18 @@ public class UserServiceImp implements UserService {
 		User rm= User.get();
 		return rm.getRole();
 	}
+
+
+	@Override
+	@Transactional
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+
+		return UserDetailsImpl.build(user);
+	}
+
+
 	
 	
 	/*

@@ -30,7 +30,7 @@ public class User {
     private Long userId;
  
     @Column(name = "User_Name", nullable = false)
-    private String userName;
+    private String username;
     
     @Column(name = "email", nullable = false)
     private String email;
@@ -72,7 +72,7 @@ public class User {
 	public User(String userName, String email, String password, String nom, String prenom, int telephone,
 			Set<Role> role) {
 		super();
-		this.userName = userName;
+		this.username = userName;
 		this.email = email;
 		this.password = password;
 		this.nom = nom;
@@ -80,10 +80,10 @@ public class User {
 		this.telephone = telephone;
 		this.role = role;
 	}
-	public User(Long userId, String userName, String email, String password, String nom, String prenom, int telephone) {
+	public User(String userName, String email, String password, String nom, String prenom, int telephone) {
 		super();
-		this.userId = userId;
-		this.userName = userName;
+		
+		this.username = userName;
 		this.email = email;
 		this.password = password;
 		this.nom = nom;
@@ -93,7 +93,7 @@ public class User {
 	public User(User u) {
 		super();
 		this.userId = u.userId;
-		this.userName = u.userName;
+		this.username = u.username;
 		this.email = u.email;
 		this.password = u.password;
 		this.nom = u.nom;
@@ -110,7 +110,7 @@ public class User {
 	}
 	public User(String userName, String email, String password) {
 		super();
-		this.userName = userName;
+		this.username = userName;
 		this.email = email;
 		this.password = password;
 	}
@@ -126,10 +126,10 @@ public class User {
 		this.userId = userId;
 	}
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 	public String getEmail() {
 		return email;

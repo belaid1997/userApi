@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +37,14 @@ public class UserController {
 	
 	
 	
-	
+	@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/user",method = RequestMethod.POST)
 	public User saveUser(@RequestBody User c) {
 		return userRepository.saveUser(c);
 	}
     
+    
+   // @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/user",method = RequestMethod.GET)
    	public List<User> listUser() {
    		return userRepository.listUser();

@@ -26,9 +26,17 @@ public interface UserService {
 	public void deleteAccount(Long id);
 	
 	public Optional<User> findUserAccount(String userName) throws SQLException, ClassNotFoundException;
+	
+	
+	
+	
+	
+	
+	
 	//User findUsersAccount(String userName) throws SQLException, ClassNotFoundException;
 	//User loadUserByUsername(String username) throws UsernameNotFoundException;
 	Set<Role> findRolebyId(Long id);
+	
 	
 	
 	
