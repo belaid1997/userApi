@@ -37,14 +37,14 @@ public class UserController {
 	
 	
 	
-	@PreAuthorize("hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/user",method = RequestMethod.POST)
 	public User saveUser(@RequestBody User c) {
 		return userRepository.saveUser(c);
 	}
     
     
-   // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/user",method = RequestMethod.GET)
    	public List<User> listUser() {
    		return userRepository.listUser();
