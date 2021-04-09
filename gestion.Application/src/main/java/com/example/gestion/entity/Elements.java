@@ -136,13 +136,6 @@ public class Elements {
 	}
 
 	
-	public LoopTest getLoop() {
-		return loop;
-	}
-
-	public void setLoop(LoopTest loop) {
-		this.loop = loop;
-	}
 	
 	
 	/*

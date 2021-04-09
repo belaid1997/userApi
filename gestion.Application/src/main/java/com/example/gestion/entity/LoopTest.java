@@ -44,6 +44,55 @@ public class LoopTest {
 		super();
 		this.element = element;
 	}
+
+
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+
+
+
+	public Elements getElement() {
+		return element;
+	}
+
+
+
+
+
+	public void setElement(Elements element) {
+		this.element = element;
+	}
+
+
+
+
+
+	public Long getLien() {
+		return lien.getId();
+	}
+
+
+
+
+
+	public void setLien(Lien lien) {
+		this.lien = lien;
+	}
+	
 	
 	
 	

@@ -26,22 +26,22 @@ public class Lien {
     @Column(name = "id_lien")
 	private Long id;
 	
-	@Column(name = "url", nullable = false)
+	@Column(name = "url")
 	private String url;
 	
 	 @ManyToOne
-	 @JoinColumn(name="id_application", nullable=false)
+	 @JoinColumn(name="id_application")
 	 private Applications application;
 	 
 	 
 	 
 	 @ManyToOne(fetch = FetchType.LAZY, optional = false)
-	 @JoinColumn(name="test_type", nullable=false)
+	 @JoinColumn(name="test_type")
 	 private TestType testType;
 	 
 	 @OneToMany(mappedBy="lien", fetch = FetchType.LAZY,
 	            cascade = CascadeType.ALL)
-	    private Set<Test> test;
+	    private Set<TestRapport> test;
 	 
 	 @OneToMany(mappedBy="lien", fetch = FetchType.LAZY)
 	    private Set<AuthantificationTest> authantificationTest;
@@ -67,7 +67,7 @@ public class Lien {
 		super();
 	}
 
-	public Lien( String url, Applications application, TestType testType, Set<Test> test,
+	public Lien( String url, Applications application, TestType testType, Set<TestRapport> test,
 			Set<AuthantificationTest> authantificationTest) {
 		super();
 		
@@ -109,16 +109,19 @@ public class Lien {
 	public String getTestType() {
 		return testType.getType();
 	}
+	public Long getTestTypeid() {
+		return testType.getId();
+	}
 
 	public void setTestType(TestType testType) {
 		this.testType = testType;
 	}
 
-	public Set<Test> getTest() {
+	public Set<TestRapport> getTest() {
 		return test;
 	}
 
-	public void setTest(Set<Test> test) {
+	public void setTest(Set<TestRapport> test) {
 		this.test = test;
 	}
 

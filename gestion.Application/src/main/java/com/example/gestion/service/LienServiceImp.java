@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.openqa.selenium.By;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -18,6 +19,7 @@ import com.example.gestion.repository.LienRepository;
 
 
 @Service
+
 public class LienServiceImp implements LienService{
 	
 	@Autowired

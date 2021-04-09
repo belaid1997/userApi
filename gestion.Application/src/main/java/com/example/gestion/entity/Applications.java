@@ -14,10 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.stereotype.Component;
+
 @Entity
 @Table(	name = "applications", 
 		uniqueConstraints = { 
 			@UniqueConstraint(columnNames = "nom_application") })
+
 public class Applications {
 	
 	@Id

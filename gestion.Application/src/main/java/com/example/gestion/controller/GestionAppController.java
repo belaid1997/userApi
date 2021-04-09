@@ -10,12 +10,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.gestion.entity.Applications;
+import com.example.gestion.entity.AuthantificationTest;
 import com.example.gestion.entity.Elements;
 import com.example.gestion.entity.Lien;
-import com.example.gestion.entity.Test;
+import com.example.gestion.entity.LoopTest;
+import com.example.gestion.entity.TestRapport;
+import com.example.gestion.entity.TestType;
+import com.example.gestion.repository.TestTypeRepository;
 import com.example.gestion.service.ApplicationsService;
+import com.example.gestion.service.AuthantTestService;
 import com.example.gestion.service.ElementsService;
 import com.example.gestion.service.LienService;
+import com.example.gestion.service.LoopTestService;
 import com.example.gestion.service.TestService;
 
 @RestController
@@ -30,12 +36,18 @@ public class GestionAppController {
 	ElementsService elementservice;
 	@Autowired
 	TestService testervice;
+	@Autowired
+	LoopTestService Loopservice;
+	@Autowired
+	AuthantTestService authTestervice;
+	@Autowired
+	TestTypeRepository testTypeRepo;
 	
 	
 	//partie Application
 	
 	@RequestMapping(value="/app",method = RequestMethod.POST)
-	public Applications saveApp(Applications app) {
+	public Applications saveApp(@RequestBody Applications app) {
 		return appservice.saveApp(app);
 	}
 	
@@ -53,6 +65,12 @@ public class GestionAppController {
 	@RequestMapping(value = "app/{id}",method = RequestMethod.PUT)
 	public Applications updatApp(@RequestBody Applications c,@PathVariable("id") Long id) {
 		c.setIdApplication(id);
+		Optional<Applications> app=appservice.findbyId(id);
+		Applications ap=app.get();
+		if(c.getApplicationName()==null) {c.setApplicationName(ap.getApplicationName());}
+		if(c.getDateAjoute()==null) {c.setDateAjoute(ap.getDateAjoute());}
+		
+		
 		return appservice.updatApp(c);
 	}
 	
@@ -71,7 +89,7 @@ public class GestionAppController {
 	////partie Lien
 	
 	@RequestMapping(value="/lien",method = RequestMethod.POST)
-	public Lien saveLien(Lien lien) {
+	public Lien saveLien(@RequestBody Lien lien) {
 		return lienservice.saveLien(lien);
 	}
 	@RequestMapping(value="/lien",method = RequestMethod.GET)
@@ -87,6 +105,15 @@ public class GestionAppController {
 	@RequestMapping(value = "/lien/{id}",method = RequestMethod.PUT)
 	public Lien updatLien(@RequestBody Lien c,@PathVariable("id") Long id) {
 		c.setId(id);
+		Optional<Lien> lin=lienservice.findLienbyId(id);
+		Lien lien=lin.get();
+		Applications app=appservice.findbyId(lien.getApplication()).get();
+		TestType type=testTypeRepo.findById(lien.getTestTypeid()).get();
+	
+		if(c.getUrl()==null) {c.setUrl(lien.getUrl());}
+		if(c.getApplication()==null) {c.setApplication(app);}
+		//if(c.getTestType()==null) {c.setTestType(type);}
+	
 		return lienservice.updatLien(c);
 	}
 	
@@ -99,7 +126,7 @@ public class GestionAppController {
 	
 	
 	@RequestMapping(value="/element",method = RequestMethod.POST)
-	public Elements saveLien(Elements lien) {
+	public Elements saveLien(@RequestBody Elements lien) {
 		return elementservice.saveElements(lien);
 	}
 	@RequestMapping(value="/element",method = RequestMethod.GET)
@@ -112,8 +139,19 @@ public class GestionAppController {
 		return elementservice.findElementsbyId(id);
 	}
 	@RequestMapping(value = "/element/{id}",method = RequestMethod.PUT)
-	public Elements updatElements(@RequestBody Elements c,@PathVariable("id") Long id) {
+	public Elements updatElements(@RequestBody Elements c,@PathVariable("id") Long id) throws NullPointerException {
 		c.setId(id);
+		Elements ele=elementservice.findElementsbyId(id).get();
+		if(c.getCssSelector()==null) {c.setCssSelector(ele.getCssSelector());}
+		if(c.getIdlocator()==null) {c.setIdlocator(ele.getIdlocator());}
+		if(c.getNamelocator()==null) {c.setNamelocator(ele.getNamelocator());}
+		if(c.getTagenamelocator()==null) {c.setTagenamelocator(ele.getTagenamelocator());}
+		if(c.getTagenamelocator()==null) {c.setTagenamelocator(ele.getTagenamelocator());}
+		if(c.getXpath()==null) {c.setXpath(ele.getXpath());}
+		if(c.getValue()==null) {c.setValue(ele.getValue());}
+		
+		
+		
 		return elementservice.updatElements(c);
 	}
 	
@@ -122,23 +160,78 @@ public class GestionAppController {
 		this.elementservice.deleteElements(id);
 	}
 	
+	
+	
+	////////////partie Auth Test
+	@RequestMapping(value="/authtest",method = RequestMethod.POST)
+	public AuthantificationTest saveAuthTest(@RequestBody AuthantificationTest lien) {
+		return authTestervice.saveAuthTest(lien);
+	}
+	@RequestMapping(value="/authtest",method = RequestMethod.GET)
+	public List<AuthantificationTest> listAuthTest() {
+		return authTestervice.listAuthTest();
+	}
+	@RequestMapping(value="/authtest/{id}",method = RequestMethod.GET)
+	public Optional<AuthantificationTest> findAuthTestById(@PathVariable Long id){
+		
+		return authTestervice.findAuthTestbyId(id);
+	}
+	@RequestMapping(value = "/authtest/{id}",method = RequestMethod.PUT)
+	public AuthantificationTest updatAuthTest(@RequestBody AuthantificationTest c,@PathVariable("id") Long id) {
+		c.setId(id);
+		return authTestervice.updatAuthTest(c);
+	}
+	
+	@RequestMapping(value = "/authtest/{id}",method = RequestMethod.DELETE)
+	public void deleteAuthTest(@PathVariable Long id) {
+		this.authTestervice.deleteAuthTest(id);
+	}
+	
+	
+	/////////Partie Loop test
+	
+	@RequestMapping(value="/loop",method = RequestMethod.POST)
+	public LoopTest saveLoop(@RequestBody LoopTest lien) {
+		return Loopservice.saveLoop(lien);
+	}
+	@RequestMapping(value="/loop",method = RequestMethod.GET)
+	public List<LoopTest> listLoop() {
+		return Loopservice.listLoop();
+	}
+	@RequestMapping(value="/loop/{id}",method = RequestMethod.GET)
+	public Optional<LoopTest> findLoopById(@PathVariable Long id){
+		
+		return Loopservice.findLoopbyId(id);
+	}
+	@RequestMapping(value = "/loop/{id}",method = RequestMethod.PUT)
+	public LoopTest updatLoop(@RequestBody LoopTest c,@PathVariable("id") Long id) {
+		
+		return Loopservice.updatLoop(c);
+	}
+	
+	@RequestMapping(value = "/loop/{id}",method = RequestMethod.DELETE)
+	public void deleteLoop(@PathVariable Long id) {
+		this.Loopservice.deleteLoop(id);
+	}
+	
+	
 	///////////partie test
 	
 	@RequestMapping(value="/test",method = RequestMethod.POST)
-	public Test saveLien(Test lien) {
+	public TestRapport saveLien(@RequestBody TestRapport lien) {
 		return testervice.saveTest(lien);
 	}
 	@RequestMapping(value="/test",method = RequestMethod.GET)
-	public List<Test> listTests() {
+	public List<TestRapport> listTests() {
 		return testervice.listTest();
 	}
 	@RequestMapping(value="/test/{id}",method = RequestMethod.GET)
-	public Optional<Test> findTestById(@PathVariable Long id){
+	public Optional<TestRapport> findTestById(@PathVariable Long id){
 		
 		return testervice.findTestbyId(id);
 	}
 	@RequestMapping(value = "/test/{id}",method = RequestMethod.PUT)
-	public Test updatTests(@RequestBody Test c,@PathVariable("id") Long id) {
+	public TestRapport updatTests(@RequestBody TestRapport c,@PathVariable("id") Long id) {
 		c.setId(id);
 		return testervice.updatTest(c);
 	}

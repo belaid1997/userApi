@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(	name = "test")
-public class Test {
+public class TestRapport {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_test")
@@ -32,11 +32,11 @@ public class Test {
 	@Column(name = "date_test")
 	private Date date_test;
 
-	public Test() {
+	public TestRapport() {
 		super();
 	}
 
-	public Test(Lien lien, String status, Date date_test) {
+	public TestRapport(Lien lien, String status, Date date_test) {
 		super();
 		this.lien = lien;
 		this.status = status;
