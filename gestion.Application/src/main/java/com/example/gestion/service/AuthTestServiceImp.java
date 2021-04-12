@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.gestion.entity.AuthantificationTest;
+import com.example.gestion.entity.Elements;
 import com.example.gestion.repository.AuthantificationTestRepository;
+import com.example.gestion.repository.ElementsRepository;
 
 
 @Service
@@ -15,10 +17,20 @@ public class AuthTestServiceImp implements AuthantTestService {
 	
 	@Autowired
 	AuthantificationTestRepository authtestRepo;
+	@Autowired
+	ElementsRepository elementRepo;
 
 	@Override
 	public AuthantificationTest saveAuthTest(AuthantificationTest app) {
 		// TODO Auto-generated method stub
+		Elements u= elementRepo.getOne(app.getUsername().getId()); //try catch pour la gestion des exptions cheked
+		Elements p= elementRepo.getOne(app.getPassword().getId());
+		Elements b= elementRepo.getOne(app.getBotton().getId());
+		app.setUsername(u);
+		app.setPassword(p);
+		app.setPassword(p);
+		
+		
 		return authtestRepo.save(app);
 	}
 

@@ -11,9 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(	name = "loop_test")
+@Table(	name = "loop_test",
+uniqueConstraints = { 
+		@UniqueConstraint(columnNames = "id_element") })
 public class LoopTest {
 	
 	@Id
@@ -26,7 +29,7 @@ public class LoopTest {
     private Elements element;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name="id_lien", nullable=false)
- private Lien lien;
+     private Lien lien;
 
 	
 	

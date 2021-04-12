@@ -39,6 +39,7 @@ public class AuthantificationTest {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_botton", referencedColumnName = "id_element")
     private Elements botton;
+	private String siterepense;
 	
 	/*
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -55,7 +56,7 @@ public class AuthantificationTest {
 
 	*/
 	
-	private String siterepense;
+	
 
 	public AuthantificationTest() {
 		super();
@@ -117,6 +118,7 @@ public class AuthantificationTest {
 	public void setSiterepense(String siterepense) {
 		this.siterepense = siterepense;
 	}
+	
 	
 	
 	

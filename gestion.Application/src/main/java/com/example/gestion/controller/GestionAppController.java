@@ -23,6 +23,7 @@ import com.example.gestion.service.ElementsService;
 import com.example.gestion.service.LienService;
 import com.example.gestion.service.LoopTestService;
 import com.example.gestion.service.TestService;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @RestController
 public class GestionAppController {
@@ -105,13 +106,13 @@ public class GestionAppController {
 	@RequestMapping(value = "/lien/{id}",method = RequestMethod.PUT)
 	public Lien updatLien(@RequestBody Lien c,@PathVariable("id") Long id) {
 		c.setId(id);
-		Optional<Lien> lin=lienservice.findLienbyId(id);
-		Lien lien=lin.get();
-		Applications app=appservice.findbyId(lien.getApplication()).get();
-		TestType type=testTypeRepo.findById(lien.getTestTypeid()).get();
+		
+		Lien lien=lienservice.findLienbyId(id).get();
+		//Applications app=appservice.findbyId(lien.getApplication()).get();
+		//TestType type=testTypeRepo.findById(lien.getTestTypeid()).get();
 	
 		if(c.getUrl()==null) {c.setUrl(lien.getUrl());}
-		if(c.getApplication()==null) {c.setApplication(app);}
+	//	if(c.getApplication()==null) {c.setApplication(app);}
 		//if(c.getTestType()==null) {c.setTestType(type);}
 	
 		return lienservice.updatLien(c);
@@ -164,6 +165,7 @@ public class GestionAppController {
 	
 	////////////partie Auth Test
 	@RequestMapping(value="/authtest",method = RequestMethod.POST)
+	@JsonIgnore
 	public AuthantificationTest saveAuthTest(@RequestBody AuthantificationTest lien) {
 		return authTestervice.saveAuthTest(lien);
 	}

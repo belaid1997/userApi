@@ -136,6 +136,31 @@ public class Elements {
 	}
 
 	
+
+	public void setAuthantificationusername(AuthantificationTest authantificationusername) {
+		this.authantificationusername = authantificationusername;
+	}
+
+	
+
+	public void setAuthantificationpassword(AuthantificationTest authantificationpassword) {
+		this.authantificationpassword = authantificationpassword;
+	}
+
+	
+
+	public void setAuthantificationbotton(AuthantificationTest authantificationbotton) {
+		this.authantificationbotton = authantificationbotton;
+	}
+
+	
+
+	public void setLoop(LoopTest loop) {
+		this.loop = loop;
+	}
+	
+
+	
 	
 	
 	/*

@@ -6,8 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.gestion.entity.Elements;
 import com.example.gestion.entity.LoopTest;
+import com.example.gestion.repository.ElementsRepository;
 import com.example.gestion.repository.LoopTestRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Service
@@ -16,10 +19,17 @@ public class LoopTestServiceImp implements LoopTestService {
 	
 	@Autowired
 	LoopTestRepository loopttestrepo;
-
+	@Autowired
+    ElementsRepository elementRepo;
 	@Override
+	
 	public LoopTest saveLoop(LoopTest app) {
 		// TODO Auto-generated method stub
+		 System.out.println("in here ");
+		  System.out.println(app);
+		Elements e= elementRepo.getOne(app.getElement().getId()); //try catch pour la gestion des exptions cheked
+		app.setElement(e);
+      
 		return loopttestrepo.save(app);
 	}
 
