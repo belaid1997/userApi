@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -46,12 +47,12 @@ public class Lien {
 	            cascade = CascadeType.ALL)
 	    private Set<TestRapport> test;
 	 
-	 @OneToMany(mappedBy="lien", fetch = FetchType.LAZY)
-	    private Set<AuthantificationTest> authantificationTest;
+	 @OneToOne(mappedBy="lien", fetch = FetchType.LAZY)
+	    private AuthantificationTest authantificationTest;
 	 
 	 
-	 @OneToMany(mappedBy="lien", fetch = FetchType.LAZY)
-	    private Set<LoopTest> loopTest;
+	 @OneToOne(mappedBy="lien", fetch = FetchType.LAZY)
+	    private LoopTest loopTest;
 	 
 	 
 	 
@@ -70,18 +71,31 @@ public class Lien {
 		super();
 	}
 
-	public Lien( String url, Applications application, TestType testType, Set<TestRapport> test,
-			Set<AuthantificationTest> authantificationTest) {
+	
+	
+	public Lien(String url, Applications application, TestType testType, Set<TestRapport> test,
+			AuthantificationTest authantificationTest, LoopTest loopTest) {
 		super();
-		
 		this.url = url;
 		this.application = application;
 		this.testType = testType;
 		this.test = test;
 		this.authantificationTest = authantificationTest;
+		this.loopTest = loopTest;
+	}
+	
+
+
+
+	public Lien(String url, Applications application, TestType testType) {
+		super();
+		this.url = url;
+		this.application = application;
+		this.testType = testType;
 	}
 
-	
+
+
 	///////////////Getter & setter
 
 	public Long getId() {
@@ -129,19 +143,19 @@ public class Lien {
 		this.test = test;
 	}
 
-	public Set<AuthantificationTest> getAuthantificationTest() {
+	public AuthantificationTest getAuthantificationTest() {
 		return authantificationTest;
 	}
 
-	public void setAuthantificationTest(Set<AuthantificationTest> authantificationTest) {
+	public void setAuthantificationTest(AuthantificationTest authantificationTest) {
 		this.authantificationTest = authantificationTest;
 	}
 
-	public Set<LoopTest> getLoopTest() {
+	public LoopTest getLoopTest() {
 		return loopTest;
 	}
 
-	public void setLoopTest(Set<LoopTest> loopTest) {
+	public void setLoopTest(LoopTest loopTest) {
 		this.loopTest = loopTest;
 	}
 

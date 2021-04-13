@@ -33,8 +33,8 @@ public class LoopTest {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_element", referencedColumnName = "id_element")
     private Elements element;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="id_lien", nullable=false)
+	@OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_lien", referencedColumnName = "id_lien",nullable=false)
      private Lien lien;
 
 	

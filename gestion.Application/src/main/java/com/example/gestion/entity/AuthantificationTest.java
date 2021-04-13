@@ -26,8 +26,8 @@ public class AuthantificationTest {
     @Column(name = "id_authantification")
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="id_lien", nullable=false)
+	@OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_lien", referencedColumnName = "id_lien",nullable=false)
  private Lien lien;
 	
 	
