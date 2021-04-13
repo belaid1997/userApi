@@ -65,14 +65,13 @@ public class GestionAppController {
 	}
 	@RequestMapping(value = "app/{id}",method = RequestMethod.PUT)
 	public Applications updatApp(@RequestBody Applications c,@PathVariable("id") Long id) {
-		c.setIdApplication(id);
-		Optional<Applications> app=appservice.findbyId(id);
-		Applications ap=app.get();
-		if(c.getApplicationName()==null) {c.setApplicationName(ap.getApplicationName());}
-		if(c.getDateAjoute()==null) {c.setDateAjoute(ap.getDateAjoute());}
+		Applications app=appservice.findbyId(id).get();
+		if(c.getApplicationName()!=null) {app.setApplicationName(c.getApplicationName());}
+		if(c.getDateAjoute()!=null) {app.setDateAjoute(c.getDateAjoute());}
 		
 		
-		return appservice.updatApp(c);
+		
+		return appservice.updatApp(app);
 	}
 	
 	@RequestMapping(value = "app/{id}",method = RequestMethod.DELETE)
@@ -107,15 +106,30 @@ public class GestionAppController {
 	public Lien updatLien(@RequestBody Lien c,@PathVariable("id") Long id) {
 		c.setId(id);
 		
-		Lien lien=lienservice.findLienbyId(id).get();
-		//Applications app=appservice.findbyId(lien.getApplication()).get();
-		//TestType type=testTypeRepo.findById(lien.getTestTypeid()).get();
+		Lien m=lienservice.findLienbyId(id).get();
+		
 	
-		if(c.getUrl()==null) {c.setUrl(lien.getUrl());}
-	//	if(c.getApplication()==null) {c.setApplication(app);}
-		//if(c.getTestType()==null) {c.setTestType(type);}
+		if(c.getUrl()!=null) {m.setUrl(c.getUrl());}
+		try {
+			  //  Block of code to try
+			if(c.getApplication()!=null) {m.setApplication(appservice.findbyId(c.getApplication()).get());}
+			}
+			catch(Exception e) {
+			  //  Block of code to handle errors
+				System.out.println("app null");
+			}
+		try {
+			  //  Block of code to try
+			if(c.getTestTypeid()!=null) {m.setTestType(testTypeRepo.findById(c.getTestTypeid()).get());}
+			}
+			catch(Exception e) {
+			  //  Block of code to handle errors
+				System.out.println("lien null");
+			}
 	
-		return lienservice.updatLien(c);
+	
+	
+		return lienservice.updatLien(m);
 	}
 	
 	@RequestMapping(value = "/lien/{id}",method = RequestMethod.DELETE)
@@ -165,7 +179,7 @@ public class GestionAppController {
 	
 	////////////partie Auth Test
 	@RequestMapping(value="/authtest",method = RequestMethod.POST)
-	@JsonIgnore
+	
 	public AuthantificationTest saveAuthTest(@RequestBody AuthantificationTest lien) {
 		return authTestervice.saveAuthTest(lien);
 	}
@@ -180,8 +194,20 @@ public class GestionAppController {
 	}
 	@RequestMapping(value = "/authtest/{id}",method = RequestMethod.PUT)
 	public AuthantificationTest updatAuthTest(@RequestBody AuthantificationTest c,@PathVariable("id") Long id) {
-		c.setId(id);
-		return authTestervice.updatAuthTest(c);
+		AuthantificationTest m=authTestervice.findAuthTestbyId(id).get();
+		if(c.getBotton()!=null) {m.setBotton(elementservice.findElementsbyId(c.getBotton().getId()).get());}
+		if(c.getPassword()!=null) {m.setPassword(elementservice.findElementsbyId(c.getPassword().getId()).get());}
+		if(c.getUsername()!=null) {m.setUsername(elementservice.findElementsbyId(c.getUsername().getId()).get());}
+		if(c.getSiterepense()!=null) {m.setSiterepense(c.getSiterepense());}
+		try {
+			  //  Block of code to try
+			if(c.getLien()!=null) {m.setLien(lienservice.findLienbyId(c.getLien()).get());}
+			}
+			catch(Exception e) {
+			  //  Block of code to handle errors
+				System.out.println("lien null");
+			}
+		return authTestervice.updatAuthTest(m);
 	}
 	
 	@RequestMapping(value = "/authtest/{id}",method = RequestMethod.DELETE)
@@ -193,6 +219,7 @@ public class GestionAppController {
 	/////////Partie Loop test
 	
 	@RequestMapping(value="/loop",method = RequestMethod.POST)
+	
 	public LoopTest saveLoop(@RequestBody LoopTest lien) {
 		return Loopservice.saveLoop(lien);
 	}
@@ -207,8 +234,44 @@ public class GestionAppController {
 	}
 	@RequestMapping(value = "/loop/{id}",method = RequestMethod.PUT)
 	public LoopTest updatLoop(@RequestBody LoopTest c,@PathVariable("id") Long id) {
+		/*
+		  c.setId(id);
 		
-		return Loopservice.updatLoop(c);
+		Long k=Loopservice.findLoopbyId(id).get().getLien();
+		Lien lien=lienservice.findLienbyId(k).get();
+		if (c.getLien()==null) {c.setLien(lien);}
+		 */
+		LoopTest m=Loopservice.findLoopbyId(id).orElse(null);
+		if(c.getElement()!=null) {m.setElement(elementservice.findElementsbyId(c.getElement().getId()).get());}
+		
+		
+			
+		
+		try {
+			  //  Block of code to try
+			if(c.getLien()!=null) {m.setLien(lienservice.findLienbyId(c.getLien()).get());}
+			}
+			catch(Exception e) {
+			  //  Block of code to handle errors
+				System.out.println("lien null");
+			}
+		return Loopservice.updatLoop(m);
+		//return c.getElement().getId();
+		
+		/*if(c.getLien()==null) {
+		
+		
+		 if(c.getElement()!=null) {
+			 m.setElement(elementservice.findElementsbyId(c.getElement().getId()).get());
+			 }
+		  return m;}
+		else {
+			c.setId(id);
+			//if(c.getElement()==null) {c.setElement(m.getElement());}
+			return c;
+		}*/
+		
+		
 	}
 	
 	@RequestMapping(value = "/loop/{id}",method = RequestMethod.DELETE)

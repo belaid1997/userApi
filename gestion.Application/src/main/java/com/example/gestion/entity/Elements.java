@@ -135,50 +135,43 @@ public class Elements {
 		this.value = value;
 	}
 
-	
+	public Long getAuthantificationusername() {
+		if(authantificationusername==null) {return null;}
+		else {return authantificationusername.getId();}
+	}
 
 	public void setAuthantificationusername(AuthantificationTest authantificationusername) {
 		this.authantificationusername = authantificationusername;
 	}
 
-	
+	public Long getAuthantificationpassword() {
+		if(authantificationpassword==null) {return null;}
+		else {return authantificationpassword.getId();}
+	}
 
 	public void setAuthantificationpassword(AuthantificationTest authantificationpassword) {
 		this.authantificationpassword = authantificationpassword;
 	}
 
-	
+	public Long getAuthantificationbotton() {
+		if(authantificationbotton==null) {return null;}
+		else {return authantificationbotton.getId();}
+	}
 
 	public void setAuthantificationbotton(AuthantificationTest authantificationbotton) {
 		this.authantificationbotton = authantificationbotton;
 	}
 
-	
+	public Long getLoop() {
+		if(loop==null) {return null;}
+		else {
+		return loop.getId();}
+	}
 
 	public void setLoop(LoopTest loop) {
 		this.loop = loop;
 	}
-	
 
-	
-	
-	
-	/*
-	@OneToOne(mappedBy="username", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<AuthantificationTest> authantificationusername;
-	
-	@OneToOne(mappedBy="password", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<AuthantificationTest> authantificationpassword;
-	
-	@OneToOne(mappedBy="button", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private Set<AuthantificationTest> authantificationbotton;
-	
-	*/
-	 
-	 
 	
 
 }

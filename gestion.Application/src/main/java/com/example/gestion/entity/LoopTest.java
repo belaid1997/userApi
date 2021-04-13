@@ -13,10 +13,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 @Entity
 @Table(	name = "loop_test",
 uniqueConstraints = { 
 		@UniqueConstraint(columnNames = "id_element") })
+
 public class LoopTest {
 	
 	@Id
@@ -84,7 +90,7 @@ public class LoopTest {
 
 
 
-	public Long getLien() {
+	public Long getLien()  {
 		return lien.getId();
 	}
 

@@ -13,10 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
-@Table(	name = "authantification_test")
+@Table(	name = "authantification_test", 
+uniqueConstraints = { 
+		@UniqueConstraint(columnNames = "id_lien") })
 public class AuthantificationTest {
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,15 +31,15 @@ public class AuthantificationTest {
  private Lien lien;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_username", referencedColumnName = "id_element")
     private Elements username;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_password", referencedColumnName = "id_element")
     private Elements password;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_botton", referencedColumnName = "id_element")
     private Elements botton;
 	private String siterepense;
