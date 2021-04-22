@@ -150,17 +150,39 @@ else if(type.equals("loop")) {
             
      
           //  WebElement username = driver.findElement(By.id("so_username"));
-            String e=(lien.getLoopTest().getElement().getIdlocator()).toString();
+            String a=(lien.getLoopTest().getElement().getIdlocator()).toString();
+            String b=lien.getLoopTest().getElement().getCssSelector();
+            
             
             
           
             
 
            
-            if (!driver.findElements(By.id(e)).isEmpty()) {
+            if (!driver.findElements(By.id(a)).isEmpty()) {
             	driver.close();
                msg="test passed";
-              } else {
+              }
+            else if(!driver.findElements(By.cssSelector(b)).isEmpty()) {
+            	driver.close();
+                msg="test passed";
+            }
+            else if(!driver.findElements(By.name(lien.getLoopTest().getElement().getNamelocator())).isEmpty()) {
+            	driver.close();
+                msg="test passed";
+            }
+            else if(!driver.findElements(By.tagName(lien.getLoopTest().getElement().getTagenamelocator())).isEmpty()) {
+            	driver.close();
+                msg="test passed";
+            }
+            else if(!driver.findElements(By.name(lien.getLoopTest().getElement().getNamelocator())).isEmpty()) {
+            	driver.close();
+                msg="test passed";
+            }else if(!driver.findElements(By.name(lien.getLoopTest().getElement().getXpath())).isEmpty()) {
+            	driver.close();
+                msg="test passed";
+            }
+            else {
             	  driver.close();
             	 
             	 msg="test failed";
@@ -187,23 +209,85 @@ else {
 
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
+        
         try {
         driver.get(lien.getUrl());
-        
-        
-        String username1=lien.getAuthantificationTest().getUsername().getIdlocator();
         String value1=lien.getAuthantificationTest().getUsername().getValue();
-        String pass=lien.getAuthantificationTest().getPassword().getIdlocator();
         String value2=lien.getAuthantificationTest().getPassword().getValue();
-        String button=lien.getAuthantificationTest().getBotton().getIdlocator();
- 
+        /////partie username
+        if(lien.getAuthantificationTest().getUsername().getIdlocator()!=null ) {
+        String username1=lien.getAuthantificationTest().getUsername().getIdlocator();
         WebElement username = driver.findElement(By.id(username1));
-        WebElement password = driver.findElement(By.id(pass));
-        WebElement login = driver.findElement(By.id(button));
-
         username.sendKeys(value1);
-        password.sendKeys(value2);
-        login.click();
+        }
+        else if(lien.getAuthantificationTest().getUsername().getCssSelector()!=null) {
+        	 String username1=lien.getAuthantificationTest().getUsername().getCssSelector();
+             WebElement username = driver.findElement(By.cssSelector(username1));
+             username.sendKeys(value1);
+        }
+        else if(lien.getAuthantificationTest().getUsername().getNamelocator()!=null) {
+       	 String username1=lien.getAuthantificationTest().getUsername().getNamelocator();
+            WebElement username = driver.findElement(By.name(username1));
+            username.sendKeys(value1);
+       }
+        else if(lien.getAuthantificationTest().getUsername().getTagenamelocator()!=null) {
+          	 String username1=lien.getAuthantificationTest().getUsername().getTagenamelocator();
+               WebElement username = driver.findElement(By.tagName(username1));
+               username.sendKeys(value1);
+          }
+        else {
+        	 String username1=lien.getAuthantificationTest().getUsername().getXpath();
+             WebElement username = driver.findElement(By.xpath(username1));
+             username.sendKeys(value1);
+        }
+        /////partie password
+          if(lien.getAuthantificationTest().getPassword().getIdlocator()!=null ) {
+        	  String pass=lien.getAuthantificationTest().getPassword().getIdlocator();
+              WebElement password = driver.findElement(By.id(pass));
+              password.sendKeys(value2);            }
+            else if(lien.getAuthantificationTest().getPassword().getCssSelector()!=null) {
+            	String pass=lien.getAuthantificationTest().getPassword().getCssSelector();
+                 WebElement password = driver.findElement(By.cssSelector(pass));
+                 password.sendKeys(value2);            }
+            else if(lien.getAuthantificationTest().getPassword().getNamelocator()!=null) {
+            	String pass=lien.getAuthantificationTest().getPassword().getNamelocator();
+                WebElement password = driver.findElement(By.name(pass));
+                password.sendKeys(value2);           }
+            else if(lien.getAuthantificationTest().getPassword().getTagenamelocator()!=null) {
+            	String pass=lien.getAuthantificationTest().getPassword().getTagenamelocator();
+                   WebElement password = driver.findElement(By.tagName(pass));
+                   password.sendKeys(value2);              }
+            else {
+            	String pass=lien.getAuthantificationTest().getPassword().getXpath();
+                 WebElement password = driver.findElement(By.xpath(pass));
+                 password.sendKeys(value2);
+            }
+          //////partie button
+          if(lien.getAuthantificationTest().getBotton().getIdlocator()!=null ) {
+        	  String button=lien.getAuthantificationTest().getBotton().getIdlocator();
+              WebElement login = driver.findElement(By.id(button));
+              login.click();            }
+            else if(lien.getAuthantificationTest().getBotton().getCssSelector()!=null) {
+            	 String button=lien.getAuthantificationTest().getBotton().getCssSelector();
+                 WebElement login = driver.findElement(By.cssSelector(button));
+                 login.click();            }
+            else if(lien.getAuthantificationTest().getBotton().getNamelocator()!=null) {
+            	 String button=lien.getAuthantificationTest().getBotton().getNamelocator();
+                WebElement login = driver.findElement(By.name(button));
+                login.click();           }
+            else if(lien.getAuthantificationTest().getBotton().getTagenamelocator()!=null) {
+            	 String button=lien.getAuthantificationTest().getBotton().getTagenamelocator();
+                   WebElement login = driver.findElement(By.tagName(button));
+                   login.click();
+                   }
+            else {
+            	 String button=lien.getAuthantificationTest().getBotton().getXpath();
+                 WebElement login = driver.findElement(By.xpath(button));
+                 login.click();
+                 }
+        
+        
+        
 
         String actualUrl = lien.getAuthantificationTest().getSiterepense();
         String expectedUrl = driver.getCurrentUrl();
@@ -260,8 +344,7 @@ public Hashtable<Long, String> lancerTest() throws IOException {
 	// TODO Auto-generated method stub
 	Hashtable<Long, String> my_dict = new Hashtable<Long, String>();
 	List<Lien> lien;
-	long millis=System.currentTimeMillis();  
-    java.sql.Date date=new java.sql.Date(millis);
+	
 	lien=lienrepository.findAll();
 	for (Lien temp : lien) {
 		String k=lancerTestRapport(temp);
