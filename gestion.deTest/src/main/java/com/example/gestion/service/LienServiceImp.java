@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +23,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.example.gestion.entity.Archive;
 import com.example.gestion.entity.Lien;
 import com.example.gestion.entity.TestRapport;
+import com.example.gestion.repository.ApplicationsRepository;
+import com.example.gestion.repository.ArchiveRepository;
 import com.example.gestion.repository.LienRepository;
 import com.example.gestion.repository.TestRepository;
 
@@ -41,6 +45,10 @@ public class LienServiceImp implements LienService{
 	LienRepository lienrepository;
 	@Autowired
 	TestRepository testRepository;
+	@Autowired
+	ArchiveRepository archiverepo;
+	@Autowired
+	ApplicationsRepository apprepo;
 
 	@Override
 	public Lien saveLien(Lien lien) {
@@ -109,16 +117,19 @@ public String lancerTestRapport(Lien lien) throws IOException {
 
 String msg="";
 String type=lien.getTestType();
+long millis=System.currentTimeMillis();  
+java.sql.Date date=new java.sql.Date(millis);
+Time sqlTime = new Time(millis);
 
 
 if(type.equals("repense")){
  int k=hhttpcode(lien.getUrl());
     if(k>199&k<300) {
     	msg="up";
-    	return msg;
+    	
     }else { 
-    	msg= "down";
-    	return msg;
+    	msg="down";
+    	
  }
 }
 else if(type.equals("loop")) {
@@ -148,11 +159,11 @@ else if(type.equals("loop")) {
            
             if (!driver.findElements(By.id(e)).isEmpty()) {
             	driver.close();
-               return "test passed";
+               msg="test passed";
               } else {
             	  driver.close();
             	 
-            	 return "test failed";
+            	 msg="test failed";
             
 	
 
@@ -163,8 +174,9 @@ else if(type.equals("loop")) {
 	}catch (Exception e)
 	{
 		driver.close();
-		return "dozn";
+		msg="dozn";
 		}
+            
 
  
 }
@@ -201,12 +213,12 @@ else {
         	
         	
         	msg="up";
-        	return msg;
+        	
 			 
             
           } else {
         	  msg="down";
-        	  return msg;
+        	  
  			 
          
 
@@ -214,10 +226,27 @@ else {
 	}catch (Exception e)
 	{
 		driver.close();
-		return "dozn";}
+		 msg="dozn";}
 
     
 }
+
+//// enregistrer dans larchive
+Archive k=new Archive();
+k.setStatus(msg);
+k.setUrl(lien.getUrl());
+k.setTestType(lien.getTestType());
+k.setDate_test(date);
+k.setTime_test(sqlTime);
+k.setApplicationName(apprepo.findById(lien.getApplication()).get().getApplicationName());
+k.setDateAjoute(apprepo.findById(lien.getApplication()).get().getDateAjoute());
+archiverepo.save(k);
+/// enregistrer le test
+TestRapport rapp=new TestRapport(lien,msg,date,sqlTime);
+testRepository.save(rapp);
+
+
+return msg;
 
 
 
@@ -235,9 +264,9 @@ public Hashtable<Long, String> lancerTest() throws IOException {
     java.sql.Date date=new java.sql.Date(millis);
 	lien=lienrepository.findAll();
 	for (Lien temp : lien) {
-		my_dict.put(temp.getId(),lancerTestRapport(temp));
-		TestRapport rapp=new TestRapport(temp,lancerTestRapport(temp),date);
-		testRepository.save(rapp);
+		String k=lancerTestRapport(temp);
+		my_dict.put(temp.getId(),k);
+		
 	}
 
 	
