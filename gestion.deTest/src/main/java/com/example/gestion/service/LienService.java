@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 import com.example.gestion.entity.Lien;
 
@@ -21,5 +22,6 @@ public interface LienService {
 	
 	String lancerTestRapport(Lien lien) throws IOException;
 	Hashtable<Long, String> lancerTest() throws IOException;
+	public String lancerTestMultiThread() throws IOException,Exception;
 
 }

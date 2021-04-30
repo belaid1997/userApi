@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(	name = "archive")
@@ -30,7 +32,8 @@ public class Archive {
 	@Column(name = "status_test")
 	private String status;
 	@Column(name = "date_test")
-	private Date date_test;
+	@Temporal(TemporalType.DATE)
+	private java.util.Date datetest;
 	@Column(name = "time_test")
 	private Time time_test;
 	
@@ -53,7 +56,7 @@ public class Archive {
 		this.url = url;
 		this.testType = testType;
 		this.status = status;
-		this.date_test = date_test;
+		this.datetest = date_test;
 		this.time_test=t;
 	}
 
@@ -144,15 +147,15 @@ public class Archive {
 
 
 
-	public Date getDate_test() {
-		return date_test;
+	public java.util.Date getDatetest() {
+		return datetest;
 	}
 
 
 
 
 	public void setDate_test(Date date_test) {
-		this.date_test = date_test;
+		this.datetest = date_test;
 	}
 
 

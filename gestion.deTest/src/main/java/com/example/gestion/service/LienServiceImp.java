@@ -8,6 +8,10 @@ import java.sql.Time;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.annotation.PostConstruct;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -39,6 +43,7 @@ import com.example.gestion.repository.TestRepository;
 @Service
 
 public class LienServiceImp implements LienService{
+	private static final int MYTHREADS = 3;
 	
 	
 	@Autowired
@@ -49,6 +54,7 @@ public class LienServiceImp implements LienService{
 	ArchiveRepository archiverepo;
 	@Autowired
 	ApplicationsRepository apprepo;
+	
 
 	@Override
 	public Lien saveLien(Lien lien) {
@@ -355,11 +361,38 @@ public Hashtable<Long, String> lancerTest() throws IOException {
 	
 	return my_dict;
 }
+///////////////lancer test with multitread
+public String lancerTestMultiThread() throws IOException,Exception {
+	ExecutorService executor = Executors.newFixedThreadPool(MYTHREADS);
+	Hashtable<Long, String> my_dict = new Hashtable<Long, String>();
+	List<Lien> lien;
+	
+	lien=lienrepository.findAll();
+	for (Lien temp : lien) {
+		Runnable worker = new MyRunnable(temp);
+		
+	
 
-
-
+		executor.execute(worker);
 		
 		
+	}
+	executor.shutdown();
+	// Wait until all threads are finish
+	while (!executor.isTerminated()) {
+
+	}
+	return "test done";
+	
+	
+}
+
+
+
+
+//////////////////////////////////another  try
+
+
 		
 		
 		

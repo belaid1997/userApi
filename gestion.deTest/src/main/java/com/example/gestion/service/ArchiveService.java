@@ -1,5 +1,6 @@
 package com.example.gestion.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,5 +14,7 @@ public interface ArchiveService {
 	Optional<Archive> findbyId(Long id);
 	public Archive updatArchive(Archive c) ;
 	public void deleteArchive(Long id);
+	
+	
 
 }

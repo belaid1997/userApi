@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,6 +56,12 @@ public class TestController {
 		
 		
 		return lienservice.lancerTest();
+	}
+	
+	
+	@RequestMapping(value="/lancertestmulti/",method = RequestMethod.GET)
+	public String lancerTestMultiThread() throws IOException,Exception{
+		return this.lienservice.lancerTestMultiThread();
 	}
 
 
