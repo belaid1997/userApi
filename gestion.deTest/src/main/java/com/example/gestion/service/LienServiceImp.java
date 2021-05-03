@@ -21,6 +21,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.testng.annotations.BeforeMethod;
@@ -346,6 +347,8 @@ return msg;
 //////////// lancer test globale
 
 @Override
+@Scheduled(cron = "0 51 09 * * ?")
+@Scheduled(cron = "0 54 09 * * ?")
 public Hashtable<Long, String> lancerTest() throws IOException {
 	// TODO Auto-generated method stub
 	Hashtable<Long, String> my_dict = new Hashtable<Long, String>();
